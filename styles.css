@@ -1,0 +1,135 @@
+html {
+    background-color: #027856;
+}
+
+h1 {
+    text-align: center;
+    text-decoration-style: solid;
+    color: white;
+    border: solid #013224;
+    background-color: #013224;
+    border-radius: 20px;
+}
+
+#article section {
+    text-align: center;
+    border: solid #013224;
+    color: white;
+    border-radius: 20px;
+    margin-left: 150px;
+    padding: 150px;
+}
+
+#article {
+    background-color: #014b36;
+    text-align: left;
+    width: 650px;
+    height: 700px;
+    border: solid #013224;
+    margin-left: 100px;
+    padding-left: 30px;
+    padding-top: 15px;
+    color: white;
+    border-radius: 20px;
+}
+
+/* ✅ UPDATED: summary popup sizing/positioning + scroll */
+.summary {
+    text-align: center;
+    width: 750px;
+    max-height: 80vh;          /* was height: 720px */
+    overflow-y: auto;          /* allow scrolling inside popup */
+    border: solid #013224;
+    background-color: #014b36;
+
+    position: fixed;
+    top: 10%;
+    right: 5%;
+
+    padding: 20px;             /* replaces padding-left/top */
+    color: white;
+    border-radius: 20px;
+
+    visibility: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+
+.open-summary {
+    visibility: visible;
+}
+
+.close-summary {
+    visibility: hidden;
+}
+
+/* ✅ UPDATED: keep close button accessible */
+.summaryButton {
+    position: sticky;
+    bottom: 15px;
+    display: block;
+    margin: 20px auto 0 auto;
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 15px 32px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#comments {
+    background-color: #014b36;
+    text-align: inherit;
+    border: solid #013224;
+    width: 660px;
+    height: 450px;
+    float: inherit;
+    margin-left: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 15px;
+    color: white;
+    border-radius: 20px;
+}
+
+.button {
+    text-align: center;
+    display: inline-block;
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 15px 32px;
+    margin: 4px 2px;
+    margin-left: 630px;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    border-radius: 10px;
+}
+
+.button:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.6);
+}
+
+#mandt {
+    width: 620px;
+    height: 280px;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+.loader {
+    display: none;   /* hide by default */
+}

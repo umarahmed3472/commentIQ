@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Buffering Bandits - AI Comment Summarization Project</title>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div name="Banner" id="banner">
+    <h1>The Buffering Bandits: AI Comment Summarization Project DEMO</h1>
+  </div>
+
+  <!-- SUMMARY POPUP -->
+  <div name="Summarization Layout" class="summary" id="summary">
+    <h2 style="text-align:left;">
+      <span style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+        AI-Generated Comment Summary
+      </span>
+    </h2>
+    <div class="loader" id="loaderSpin"></div>
+    <!-- ✅ AI OUTPUT GOES HERE -->
+    <div id="aiSummary" style="white-space: pre-wrap; text-align:left;"></div>
+    <p id="aiError" style="color:#ffb3b3; text-align:left;"></p>
+
+    <button class="summaryButton" onclick="closeSummary()">Close</button>
+  </div>
+
+  <!-- ARTICLE -->
+  <div name="Article Layout" id="article">
+    <img src="dash_updates_community_one.png" id="mandt">
+    <div style="text-align:left; width:500px; height:320px;">
+      <h3>Summary of DASH Enhancements:</h3>
+      <h4><span style="font-weight: bold;">Safe Deposit Box Inquiry</span></h4>
+      <h5><span style="font-weight: bold;">We heard you!</span> Thanks to your feedback, we are excited to announce the following enhancements around Safe Deposit Box functionality in Dash.</h5>
+      <ul>
+      <li>As a Dash User, I am able to quickly determine if a Retail Customer has a Safe Deposit Box (SDB) and view pertinent information on the SDB Account</li>
+      &nbsp;
+      <ul>
+      <li>Note: Dash will only display Safe Deposit Boxes for Retail Customers whose Name & TIN match on both their Hogan and Safe Deposit Box Profiles (SA99). To support the customer’s servicing request, you may need to refer to their SDB Agreement and the Safe Box Account System (SA99) for additional confirmation</li>
+      &nbsp;
+      <li>Please refer to the updated Knowledge Now procedures below for more information</li>
+      </ul>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SUMMARIZE BUTTON -->
+  <button class="button" onclick="openSummary()">Summarize</button>
+
+  <div id="article section">
+    <h2 style="margin-left:150px; color:white;">Article 1 Comment Section:</h2>
+  </div>
+
+  <!-- COMMENT SECTION -->
+  <div id="comments">
+    <div id="commentComposer" style="text-align:left; margin:12px 0;">
+      <label for="commentInput" style="display:block; margin-bottom:6px; color:white;">
+        Add a comment:
+      </label>
+
+      <textarea
+        id="commentInput"
+        rows="3"
+        placeholder="Type your comment..."
+        style="width:80%; max-width:700px;"
+      ></textarea>
+
+      <div style="margin-top:8px;">
+        <button id="submitCommentBtn" type="button">Submit</button>
+      </div>
+    </div>
+
+    <ol id="commentList" style="text-align:left;">
+      <li class="comment">Love debit card maintenance enhancements! So much easier to assist customers with PIN resets!</li>
+      <li class="comment">DASH access to SDB is much easier for the staff, compared to HOGAN/SA99</li>
+      <li class="comment">I really enjoy the new feature!! However I don’t believe I was able to offer the customer on DASH an option when flagging a card for LOST/STOLEN...</li>
+    </ol>
+  </div>
+
+  <!-- JS -->
+  <script>
+    const summaryDiv = document.getElementById("summary");
+    const aiSummaryEl = document.getElementById("aiSummary");
+    const loadingEl = document.getElementById("loaderSpin");
+    const aiErrorEl = document.getElementById("aiError");
+
+    function closeSummary() {
+      summaryDiv.classList.remove("open-summary");
+    }
+
+    async function openSummary() {
+      summaryDiv.classList.add("open-summary");
+      aiErrorEl.textContent = "";
+      aiSummaryEl.textContent = "Summarizing comments...";
+      // show spinner
+      loadingEl.style.display = "block";
+
+      const comments = Array.from(document.querySelectorAll("#commentList .comment"))
+        .map(el => el.innerText.trim())
+        .filter(Boolean);
+
+      try {
+        
+        const res = await fetch("http://127.0.0.1:5000/summarize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ comments })
+        });
+
+        if (!res.ok) throw new Error(`Server error ${res.status}`);
+
+        const data = await res.json();
+        loadingEl.style.display = "none";
+        aiSummaryEl.textContent = data.summary || "(No summary returned)";
+      } catch (err) {
+        loadingEl.style.display = "none";
+        aiSummaryEl.textContent = "";
+        aiErrorEl.textContent =
+          "Could not reach the AI summarizer. Make sure the Python server is running.\n\n" +
+          err;
+      }
+    }
+
+    // Add comment logic
+    const commentInput = document.getElementById("commentInput");
+    const submitBtn = document.getElementById("submitCommentBtn");
+    const commentList = document.getElementById("commentList");
+
+    function addComment() {
+      const text = commentInput.value.trim();
+      if (!text) return;
+
+      const li = document.createElement("li");
+      li.className = "comment";
+      li.textContent = text;
+
+      commentList.appendChild(li);
+      commentInput.value = "";
+      commentInput.focus();
+    }
+
+    submitBtn.addEventListener("click", addComment);
+    commentInput.addEventListener("keydown", e => {
+      if (e.ctrlKey && e.key === "Enter") addComment();
+    });
+  </script>
+</body>
+&nbsp;
+&nbsp;
+&nbsp;
+
+<footer style="color: white; text-align: center;">© Copyright 2025 The Buffering Bandits</footer>
+</html>
