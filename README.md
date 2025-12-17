@@ -37,11 +37,17 @@ Open index.html in your browser (double-click or run `open index.html`)
 
 ## Project Structure
 commentIQ/
+
 ├── index.html
+
 ├── script.js
+
 ├── app.py
+
 ├── .gitignore
+
 ├── .env (local only, not committed)
+
 └── README.md
 
 
